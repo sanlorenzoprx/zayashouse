@@ -1,32 +1,29 @@
 # Zayas House LLC Website
 
-Executive company website and policy center for Zayas House LLC. The site is a dependency-free single-page application designed for Cloudflare Pages.
+Public company and product website for **Zayas House LLC**, a Puerto Rico technology company building **StoryFactory — The Creative Intelligence System**.
+
+The site is a dependency-free single-page application designed for Cloudflare.
+
+## Positioning
+
+The public hierarchy is intentionally simple:
+
+`Zayas House LLC -> StoryFactory -> Creative Intelligence System -> GhostTown integrated use case -> Product Plugin Creation Engine scale path`
+
+Zayas House is the technology company. StoryFactory is the flagship product. GhostTownTest is the first integrated product case used to prove StoryFactory against real product and conversion workflows.
 
 ## Included routes
 
-- `/` — company homepage
-- `/products` — products coming to market and in development
-- `/about` — business description and identity
+- `/` — company + flagship StoryFactory overview
+- `/storyfactory` — flagship product and commercial model
+- `/technology` — architecture, infrastructure, and Product Plugin Creation Engine
+- `/products` — flagship product + GhostTown proof environment
+- `/about` — company identity and focus
 - `/support` — customer support and billing help
 - `/terms` — Terms of Service
 - `/privacy` — Privacy Policy
 - `/refunds` — Refund and Cancellation Policy
 - `/delivery` — Digital Delivery and Fulfillment Policy
-
-## Cloudflare Pages deployment
-
-1. In Cloudflare, open **Workers & Pages**.
-2. Select **Create application → Pages → Import an existing Git repository**.
-3. Choose `sanlorenzoprx/zayashouse`.
-4. Configure:
-   - Production branch: `main`
-   - Framework preset: `None`
-   - Build command: `exit 0` (or leave blank)
-   - Build output directory: `/`
-5. Deploy.
-6. Under **Custom domains**, connect `zayashouse.com` and optionally redirect `www.zayashouse.com` to the apex domain.
-
-The `_redirects` file enables History API routes to load directly on Cloudflare Pages.
 
 ## Local preview
 
@@ -38,19 +35,41 @@ python -m http.server 8080
 
 Open `http://localhost:8080`.
 
-## Business information used
+## Cloudflare deployment
+
+The repository includes `wrangler.jsonc` with static assets served from the repository root and SPA fallback enabled.
+
+The production domain is:
+
+`https://zayashouse.com`
+
+## Business information
 
 - Legal name: Zayas House LLC
 - Location: Puerto Rico, United States
-- Support: support@zayashouse.com
+- Company inquiries: hello@zayashouse.com
+- Customer support: support@zayashouse.com
+- Flagship product: StoryFactory
+- Product category: Creative Intelligence System
+- Current product status: Working MVP
 
-## Before submitting to Stripe
+## Grant / infrastructure narrative
 
-- Deploy the site to the exact domain entered in Stripe.
-- Confirm every route loads without a password or regional block.
-- Confirm `support@zayashouse.com` receives mail and is monitored.
-- Ensure Stripe's business description and statement descriptor match the website and checkout products.
-- Show the exact price, currency, deliverable, delivery timing, and recurring billing terms on every checkout/product offer.
-- Add a business phone number only after a dedicated number is active and monitored; it is intentionally omitted from this version.
+The public technology page explains the infrastructure required to scale StoryFactory without turning the website into a grant application:
 
-Policy text is a practical business template and should be reviewed for the company's final products and legal requirements before launch.
+- AI/model inference
+- media generation and rendering
+- storage and analytics
+- secure distribution infrastructure
+- localization and market execution
+- testing and observability
+
+## Commercial direction
+
+StoryFactory is being developed toward recurring creative production for businesses, including a 50-video production-package model and continuous learning from creative and product outcomes.
+
+Exact commercial terms, pricing, delivery, and recurring billing must be disclosed in the applicable offer before purchase.
+
+## Legal note
+
+Policy text is a practical business template and should be reviewed for the company's final products, jurisdictions, and legal requirements before commercial launch.

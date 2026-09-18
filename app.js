@@ -1,121 +1,320 @@
 const supportEmail = 'support@zayashouse.com';
+const companyEmail = 'hello@zayashouse.com';
 const effectiveDate = 'July 30, 2026';
-
-const products = [
-  {
-    name: 'GhostTown Test',
-    status: 'Coming to market',
-    statusClass: '',
-    code: 'GT',
-    description: 'A practical business-idea evaluation experience that helps entrepreneurs assess demand, competition, risks, and next validation steps before committing significant time or money.',
-    url: 'https://lit-ghosttown.app'
-  },
-  {
-    name: 'Shorts Factory',
-    status: 'In development',
-    statusClass: 'status-dev',
-    code: 'SF',
-    description: 'A supervised short-form media production and distribution system for creating, localizing, reviewing, scheduling, and measuring digital content.',
-    url: null
-  },
-  {
-    name: 'SiteProof',
-    status: 'In development',
-    statusClass: 'status-dev',
-    code: 'SP',
-    description: 'An offline-first proof-of-work and reporting product designed to help service contractors document jobs, reduce disputes, and support faster payment.',
-    url: null
-  },
-  {
-    name: 'Memories My Story',
-    status: 'In development',
-    statusClass: 'status-dev',
-    code: 'MS',
-    description: 'A photo-first, voice-led family memory experience for preserving the stories, voices, and context behind meaningful photographs.',
-    url: null
-  }
-];
-
-const productCards = (limit) => products.slice(0, limit || products.length).map(product => `
-  <article class="card">
-    <div class="icon-box">${product.code}</div>
-    <h3>${product.name}</h3>
-    <span class="status ${product.statusClass}">${product.status}</span>
-    <p style="margin-top:16px">${product.description}</p>
-    ${product.url ? `<a class="card-link" href="${product.url}" target="_blank" rel="noopener">Visit product →</a>` : `<a class="card-link" href="mailto:${supportEmail}?subject=${encodeURIComponent(product.name + ' availability')}">Ask about availability →</a>`}
-  </article>
-`).join('');
 
 const policyHero = (eyebrow, title, summary) => `
   <section class="page-hero"><div class="shell">
     <p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p>${summary}</p>
   </div></section>`;
 
+const capabilityCard = (code, title, body) => `
+  <article class="capability-card">
+    <span class="capability-code">${code}</span>
+    <h3>${title}</h3>
+    <p>${body}</p>
+  </article>`;
+
+const proofItem = (value, label) => `
+  <div class="proof-item"><strong>${value}</strong><span>${label}</span></div>`;
+
 const pages = {
   '/': () => `
-    <section class="hero">
+    <section class="hero hero-home">
       <div class="shell hero-grid">
         <div>
-          <p class="eyebrow">Zayas House LLC</p>
-          <h1>Useful digital products, built for real work.</h1>
-          <p class="hero-lede">We develop software, digital tools, and educational products that help entrepreneurs, creators, families, and small businesses move from uncertainty to clear action.</p>
+          <p class="eyebrow">Zayas House LLC Â· Puerto Rico technology company</p>
+          <h1>We build the system that turns products into stories that learn.</h1>
+          <p class="hero-lede">StoryFactory is our flagship technology: a Creative Intelligence System that understands a product, decides what is worth saying, creates media, distributes it, and learns from performance.</p>
           <div class="actions">
-            <a class="button button-primary" href="/products" data-link>Explore our products</a>
-            <a class="button button-secondary" href="mailto:${supportEmail}">Contact support</a>
+            <a class="button button-primary" href="/storyfactory" data-link>Explore StoryFactory</a>
+            <a class="button button-secondary" href="/technology" data-link>See the technology</a>
           </div>
         </div>
-        <aside class="hero-card">
-          <strong>Built from Puerto Rico. Delivered online.</strong>
-          <p>Our products are designed for practical outcomes: clearer decisions, better documentation, more efficient content production, and the preservation of meaningful stories.</p>
+        <aside class="hero-card hero-proof">
+          <span class="status status-live">Working MVP</span>
+          <strong>StoryFactory â€” The Creative Intelligence System</strong>
+          <p>Built by Zayas House LLC and being proven through real product workflows, beginning with GhostTownTest.</p>
+          <div class="mini-pipeline" aria-label="StoryFactory workflow">
+            <span>Product</span><i>â†’</i><span>Story</span><i>â†’</i><span>Media</span><i>â†’</i><span>Distribution</span><i>â†’</i><span>Learning</span>
+          </div>
         </aside>
       </div>
     </section>
+
+    <section class="proof-strip" aria-label="Company and product proof">
+      <div class="shell proof-grid">
+        ${proofItem('Working MVP', 'Current product status')}
+        ${proofItem('EN / ES', 'Bilingual foundation')}
+        ${proofItem('5 platforms', 'Distribution architecture')}
+        ${proofItem('Puerto Rico', 'Built in the United States')}
+      </div>
+    </section>
+
     <section class="section section-white">
       <div class="shell">
         <div class="section-heading">
-          <h2>Products moving from development to market.</h2>
-          <p>Each product addresses a specific, costly problem and is released only after its core workflow has been tested.</p>
+          <div>
+            <p class="eyebrow">Flagship technology</p>
+            <h2>StoryFactory is not a video generator. It is a creative decision system.</h2>
+          </div>
+          <p>It learns what to notice, what story pattern exists, which format fits, how deep the story should go, and what actually produces attention and business action.</p>
         </div>
-        <div class="grid-3">${productCards(3)}</div>
+        <div class="grid-4">
+          ${capabilityCard('01', 'Product Intelligence', 'Understands what is being sold, who it serves, the pain it solves, the offer, the proof, and the constraints.')}
+          ${capabilityCard('02', 'Creative Intelligence', 'Chooses the story opportunity, hook, depth, scene structure, pacing, persuasion, and media plan.')}
+          ${capabilityCard('03', 'Distribution Intelligence', 'Adapts creative for platform, language, market, account, timing, and controlled publishing.')}
+          ${capabilityCard('04', 'Learning Intelligence', 'Connects attention, clicks, conversion events, purchases, revenue, and spend back to creative decisions.')}
+        </div>
       </div>
     </section>
+
     <section class="section">
       <div class="shell split">
         <div>
-          <p class="eyebrow">Our operating standard</p>
-          <h2>Clear promises. Transparent terms. Human support.</h2>
-          <p>We state what each product does, what customers receive, how delivery works, and when refunds or cancellations may apply. We do not sell undeclared services or hide support behind automated systems.</p>
-          <a class="button button-dark" href="/about" data-link>About Zayas House</a>
+          <p class="eyebrow">How it works</p>
+          <h2>From product understanding to a continuous creative loop.</h2>
+          <p>StoryFactory converts structured product knowledge into stories, scenes, media, platform variants, and measurable learning. The system is designed to improve the next creative from evidence collected by the last one.</p>
+          <a class="button button-dark" href="/storyfactory" data-link>See the full system</a>
         </div>
-        <div class="values">
-          <div class="value"><strong>Practical value</strong><span>Every product must help a customer complete a meaningful task or make a better decision.</span></div>
-          <div class="value"><strong>Responsible automation</strong><span>Automation should reduce repetitive work while preserving review, control, and accountability.</span></div>
-          <div class="value"><strong>Customer clarity</strong><span>Pricing, delivery, limitations, refund terms, and support channels should be easy to find.</span></div>
+        <div class="pipeline-card">
+          <div><b>1</b><span>Analyze the product</span></div>
+          <div><b>2</b><span>Build the creative model</span></div>
+          <div><b>3</b><span>Create stories and media</span></div>
+          <div><b>4</b><span>Distribute across platforms</span></div>
+          <div><b>5</b><span>Measure attention and business outcomes</span></div>
+          <div><b>6</b><span>Improve the next creative</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="shell split">
+        <div>
+          <p class="eyebrow">First integrated use case</p>
+          <h2>GhostTown gives StoryFactory a real product to learn from.</h2>
+          <p>GhostTownTest helps entrepreneurs test whether a business idea has real demand before they spend heavily. StoryFactory uses GhostTown as a first integrated product case: product context enters the system, creative is produced and distributed, and product outcomes can flow back into learning.</p>
+          <a class="button button-primary" href="https://ghosttowntest.com" target="_blank" rel="noopener">Visit GhostTownTest</a>
+        </div>
+        <div class="dark-note">
+          <span class="kicker">Why this matters</span>
+          <p>StoryFactory is being built against real product constraints instead of as a demo. That gives Zayas House a working proof environment for product intelligence, creative generation, distribution, and performance learning.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white">
+      <div class="shell split">
+        <div>
+          <p class="eyebrow">Scale path</p>
+          <h2>Product Plugin Creation Engine</h2>
+          <p>The next scaling layer is designed to analyze a business or product, normalize what matters, and generate a bounded Product Plugin for StoryFactory. AI proposes. Deterministic contracts validate. The plugin then improves as real creative and commercial evidence arrives.</p>
+          <a class="button button-dark" href="/technology" data-link>Explore the architecture</a>
+        </div>
+        <div class="architecture-stack">
+          <span>Product analysis</span>
+          <span>Generic product model</span>
+          <span>Specific product attributes</span>
+          <span>Validated Product Plugin</span>
+          <span>Creative Intelligence System</span>
+          <span>Execution + learning</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell section-heading">
+        <div>
+          <p class="eyebrow">Company</p>
+          <h2>Built by Zayas House LLC.</h2>
+        </div>
+        <p>Zayas House is the technology company. StoryFactory is the flagship product. Development has been self-funded to this stage. We are building from Puerto Rico with a bilingual foundation and a commercial path toward recurring creative production for businesses.</p>
+      </div>
+    </section>
+  `,
+
+  '/storyfactory': () => `
+    ${policyHero('Flagship product', 'StoryFactory â€” The Creative Intelligence System', 'A working technology platform for understanding products, shaping stories, producing media, distributing creative, and learning from what performs.')}
+
+    <section class="section section-white">
+      <div class="shell split">
+        <div>
+          <span class="status status-live">Working MVP</span>
+          <h2>What StoryFactory does</h2>
+          <p>StoryFactory turns a product or business into a continuous creative system. It analyzes what the product is, what problem it solves, what matters to the audience, and what evidence is available. Then it decides what story to tell, how to shape it, how to produce it, where to distribute it, and what to learn from the result.</p>
+        </div>
+        <div class="product-facts">
+          <div><strong>Category</strong><span>Creative Intelligence System</span></div>
+          <div><strong>Primary output</strong><span>Short-form stories and media</span></div>
+          <div><strong>Learning loop</strong><span>Creative + product outcomes</span></div>
+          <div><strong>Commercial direction</strong><span>Recurring creative production / 50-video production packages</span></div>
+          <div><strong>Built by</strong><span>Zayas House LLC</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-heading">
+          <div><p class="eyebrow">System</p><h2>One product. Four intelligence engines.</h2></div>
+          <p>Video production is one execution surface. The core technology is the decision and learning layer that sits above it.</p>
+        </div>
+        <div class="grid-4">
+          ${capabilityCard('PI', 'Product Intelligence', 'Builds a structured understanding of audience, pain, desired outcome, mechanism, offer, proof, objections, constraints, and conversion events.')}
+          ${capabilityCard('CI', 'Creative Intelligence', 'Selects topic, story family, show format, hook, depth, runtime, scene count, pacing, evidence treatment, and persuasion.')}
+          ${capabilityCard('DI', 'Distribution Intelligence', 'Preserves creative lineage while adapting execution for YouTube, Instagram, Facebook, TikTok, X, language, and market context.')}
+          ${capabilityCard('LI', 'Learning Intelligence', 'Measures attention, qualified clicks, product actions, purchases, revenue, and spend to improve creative decisions.')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="shell">
+        <p class="eyebrow">Execution path</p>
+        <h2 class="wide-title">Product analysis â†’ Story â†’ StoryShape â†’ Scenes â†’ Media â†’ Distribution â†’ Learning</h2>
+        <p class="dark-lede">StoryFactory uses deterministic contracts around AI-assisted interpretation so production does not simply trust model output. Product truth, evidence authority, creative structure, distribution intent, and learning dimensions remain explicit.</p>
+      </div>
+    </section>
+
+    <section class="section section-white">
+      <div class="shell split">
+        <div>
+          <p class="eyebrow">Scale architecture</p>
+          <h2>Product Plugin Creation Engine</h2>
+          <p>StoryFactory is designed to move from hand-built product integrations toward generated product plugins. The engine will analyze a product, propose the specific attributes that matter creatively, validate those attributes against deterministic contracts, and generate a bounded plugin that can learn from observed performance.</p>
+          <p>Core StoryFactory capabilities stay shared. Product plugins carry only product-specific identity, audience, pains, outcomes, evidence sources, learning attributes, conversion events, offers, CTA, and constraints.</p>
+        </div>
+        <div class="notice technology-note">
+          <strong>Design rule</strong>
+          <p>AI interprets. Deterministic contracts constrain. Runtime validation verifies. Observed learning refines.</p>
+          <p>This is the path from one integrated product to a platform that can support many unrelated businesses without building a separate creative engine for each one.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell split">
+        <div>
+          <p class="eyebrow">Proof environment</p>
+          <h2>GhostTownTest is the first integrated product case.</h2>
+          <p>GhostTown supplies real product context, story opportunities, conversion events, and commercial outcomes. StoryFactory supplies the shared creative, production, distribution, and learning system.</p>
+        </div>
+        <div class="product-facts">
+          <div><strong>Story inputs</strong><span>Pattern stories + factual cases</span></div>
+          <div><strong>Creative outputs</strong><span>Variable story depth, scenes, runtime, media</span></div>
+          <div><strong>Platforms</strong><span>YouTube, Instagram, Facebook, TikTok, X</span></div>
+          <div><strong>Business learning</strong><span>Views â†’ clicks â†’ tests â†’ paid Blueprints â†’ revenue</span></div>
+        </div>
+      </div>
+    </section>
+  `,
+
+  '/technology': () => `
+    ${policyHero('Technology', 'Infrastructure for a Creative Intelligence System.', 'StoryFactory combines product analysis, AI-assisted creative reasoning, deterministic contracts, media execution, distribution, and performance learning into one system.')}
+
+    <section class="section section-white">
+      <div class="shell">
+        <div class="section-heading">
+          <div><p class="eyebrow">Architecture</p><h2>AI where interpretation helps. Determinism where trust matters.</h2></div>
+          <p>The architecture separates product truth, creative decisions, production execution, publishing authorization, and learning so each layer can scale without turning into one opaque model call.</p>
+        </div>
+        <div class="grid-3">
+          ${capabilityCard('A', 'AI interpretation', 'Product analysis, story opportunities, creative alternatives, language, visual planning, and other high-judgment tasks.')}
+          ${capabilityCard('B', 'Deterministic contracts', 'Required fields, bounded dimensions, evidence authority, lineage, validation, publication gates, and reproducibility.')}
+          ${capabilityCard('C', 'Observed learning', 'Creative performance and product outcomes feed back into what the system should try next.')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-heading">
+          <div><p class="eyebrow">Infrastructure</p><h2>What the platform needs to scale.</h2></div>
+          <p>Infrastructure funding accelerates the parts of StoryFactory that become costly as creative volume, media quality, markets, and product integrations grow.</p>
+        </div>
+        <div class="infra-grid">
+          <article><strong>AI + model inference</strong><p>Product analysis, creative reasoning, language, evaluation, and controlled model experimentation.</p></article>
+          <article><strong>Media generation + rendering</strong><p>Visual generation, voice, audio, deterministic motion, encoding, quality verification, and scalable media workers.</p></article>
+          <article><strong>Storage + data</strong><p>Media archives, source contracts, production receipts, event history, analytics, and reproducible creative lineage.</p></article>
+          <article><strong>Distribution infrastructure</strong><p>Secure account bindings, platform adapters, idempotent publishing, retries, receipts, and authorization gates.</p></article>
+          <article><strong>Localization + market execution</strong><p>English/Spanish foundation, locale-aware creative, market context, platform policy, and future country profiles.</p></article>
+          <article><strong>Testing + observability</strong><p>Quality gates, production acceptance, cost controls, telemetry, diagnostics, and evidence-backed release verification.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="shell split">
+        <div>
+          <p class="eyebrow">Product Plugin Creation Engine</p>
+          <h2>Designed for many products, not one codebase per customer.</h2>
+          <p>The long-term scaling layer converts product inputs into a normalized Product Model, identifies product-specific creative attributes, and generates a validated Product Plugin that plugs into the same StoryFactory core.</p>
+        </div>
+        <div class="architecture-stack architecture-stack-dark">
+          <span>Website + docs + offer</span>
+          <span>Product Model</span>
+          <span>Candidate product attributes</span>
+          <span>Contract validation</span>
+          <span>Product Plugin</span>
+          <span>Creative execution + learning</span>
         </div>
       </div>
     </section>
   `,
 
   '/products': () => `
-    ${policyHero('Products', 'Software and digital tools for practical outcomes.', 'Our portfolio includes products approaching commercial release and products still in active development. Availability is clearly identified below.')}
-    <section class="section section-white"><div class="shell"><div class="grid-3">${productCards()}</div></div></section>
-    <section class="section"><div class="shell split">
-      <div><h2>What customers can expect</h2><p>Commercial products display their current price, included deliverables, delivery method, recurring-payment terms where applicable, and refund or cancellation conditions before payment.</p></div>
-      <div class="notice"><strong>Development status matters.</strong><p>Products labeled “In development” are not currently offered for purchase through this company website. Contacting us about a development product does not create an order or payment obligation.</p></div>
-    </div></section>
+    ${policyHero('Products', 'One technology company. One flagship platform.', 'Zayas House LLC is focused on StoryFactory. Other internal products serve as proving grounds and product integrations, not unrelated agency projects.')}
+
+    <section class="section section-white">
+      <div class="shell">
+        <article class="flagship-card">
+          <div>
+            <p class="eyebrow">Flagship technology</p>
+            <h2>StoryFactory</h2>
+            <span class="status status-live">Working MVP</span>
+            <p>Creative Intelligence System for product analysis, story creation, media production, multi-platform distribution, and performance learning.</p>
+          </div>
+          <a class="button button-dark" href="/storyfactory" data-link>Explore StoryFactory</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell split">
+        <div>
+          <p class="eyebrow">First integrated product case</p>
+          <h2>GhostTownTest</h2>
+          <p>GhostTown helps entrepreneurs test whether a business idea has real demand before committing heavily. It provides StoryFactory with real product context, creative topics, conversion events, and business outcomes.</p>
+          <a class="button button-dark" href="https://ghosttowntest.com" target="_blank" rel="noopener">Visit GhostTownTest</a>
+        </div>
+        <div class="notice">
+          <strong>Why internal products matter</strong>
+          <p>We use our own products as proving grounds for StoryFactory capabilities before expanding the platform commercially. That keeps the technology tied to real workflows instead of demo-only use cases.</p>
+        </div>
+      </div>
+    </section>
   `,
 
   '/about': () => `
-    ${policyHero('Company', 'We build focused products for underserved workflows.', 'Zayas House LLC is a Puerto Rico limited liability company developing and publishing online software, digital tools, automated media systems, and educational content.')}
+    ${policyHero('Company', 'Zayas House LLC is building StoryFactory.', 'We are a Puerto Rico technology company focused on a Creative Intelligence System for turning product understanding into creative execution and measurable learning.')}
+
     <article class="content-wrap">
-      <h2>What we do</h2>
-      <p>We identify workflows where people lose time, money, evidence, or clarity and build focused digital products around those problems. Our work currently includes business-idea validation, content production, contractor documentation, and family-memory preservation.</p>
-      <h2>Who we serve</h2>
-      <p>Our intended customers include entrepreneurs, creators, small businesses, service contractors, and families. Specific eligibility, supported locations, technical requirements, and product limitations are disclosed on the applicable product or checkout page.</p>
-      <h2>How we operate</h2>
-      <p>Zayas House LLC sells and supports its products online. Digital products may be delivered through a web application, customer account, secure download, email, or a combination of these methods. We use third-party infrastructure and payment providers where appropriate.</p>
+      <h2>Company focus</h2>
+      <p>Zayas House LLC is the technology company. StoryFactory is the flagship product. Development has been self-funded to this stage. The company is not positioned as an outsourced agency or a collection of unrelated experiments.</p>
+
+      <h2>What we are building</h2>
+      <p>StoryFactory combines product analysis, creative reasoning, story shaping, media production, localization, distribution, and performance learning. Video is an important output, but the core product is the intelligence layer that decides what to create and learns what works.</p>
+
+      <h2>How we are proving it</h2>
+      <p>We build against real internal products. GhostTownTest is the first integrated product case, providing real product context and measurable conversion outcomes while StoryFactory provides the shared creative and distribution system.</p>
+
+      <h2>How it scales</h2>
+      <p>The Product Plugin Creation Engine is the next scaling layer: AI-assisted product interpretation combined with deterministic contracts, runtime validation, and observed learning. The goal is to onboard different products without building a separate StoryFactory for each one.</p>
+
+      <h2>Commercial direction</h2>
+      <p>StoryFactory is being developed toward recurring creative production for businesses, including a 50-video production-package model and ongoing creative learning. Commercial offers will state exact scope, pricing, delivery, and billing terms before purchase.</p>
+
       <h2>Business identity</h2>
-      <p><strong>Legal business name:</strong> Zayas House LLC<br><strong>Business location:</strong> Puerto Rico, United States<br><strong>Customer support:</strong> <a href="mailto:${supportEmail}">${supportEmail}</a></p>
+      <p><strong>Legal business name:</strong> Zayas House LLC<br><strong>Business location:</strong> Puerto Rico, United States<br><strong>Company inquiries:</strong> <a href="mailto:${companyEmail}">${companyEmail}</a><br><strong>Customer support:</strong> <a href="mailto:${supportEmail}">${supportEmail}</a></p>
     </article>
   `,
 
@@ -174,7 +373,7 @@ const pages = {
       <p>We may collect information you provide, including your name, email address, account information, customer-support communications, product inputs, uploaded content, and transaction-related information. Payment-card details are generally processed directly by our payment provider rather than stored by us.</p>
       <p>We may also collect technical and usage information such as device and browser details, IP address, approximate location derived from IP, timestamps, referral pages, application events, diagnostic logs, and cookies or similar technologies.</p>
       <h2>How we use information</h2>
-      <p>We use information to provide and improve products, process transactions, deliver purchases, maintain accounts, respond to support requests, prevent fraud and abuse, protect security, comply with law, communicate service information, and—with any consent required by law—send product or marketing communications.</p>
+      <p>We use information to provide and improve products, process transactions, deliver purchases, maintain accounts, respond to support requests, prevent fraud and abuse, protect security, comply with law, communicate service information, andâ€”with any consent required by lawâ€”send product or marketing communications.</p>
       <h2>How we share information</h2>
       <p>We may share information with service providers that support payments, hosting, authentication, communications, analytics, security, customer support, and product operations. We may also disclose information when required by law, to protect rights and safety, in connection with a corporate transaction, or at your direction. We do not sell personal information for money.</p>
       <h2>Product content and artificial intelligence</h2>
@@ -199,7 +398,7 @@ const pages = {
       <h2>Agreement and eligibility</h2>
       <p>By accessing or purchasing a service, you agree to these Terms and any product-specific terms presented before purchase. You must have legal capacity to enter a contract and may use the services only in compliance with applicable law.</p>
       <h2>Products and accounts</h2>
-      <p>Features, availability, supported locations, technical requirements, usage limits, and deliverables may vary by product. You are responsible for accurate account information, protecting credentials, and activity under your account. Products marked “In development” are informational and are not an offer for sale.</p>
+      <p>Features, availability, supported locations, technical requirements, usage limits, and deliverables may vary by product. You are responsible for accurate account information, protecting credentials, and activity under your account. Products marked "In development" are informational and are not an offer for sale.</p>
       <h2>Payments, renewals, and taxes</h2>
       <p>Prices and billing frequency are disclosed before payment. You authorize the applicable charges and any stated recurring renewals. You are responsible for taxes not collected by us. Failed or reversed payments may result in suspended access. Refunds and cancellations are governed by our Refund and Cancellation Policy and any product-specific terms.</p>
       <h2>Acceptable use</h2>
@@ -213,7 +412,7 @@ const pages = {
       <h2>Third-party services</h2>
       <p>Services may depend on third-party payment, hosting, authentication, communications, artificial-intelligence, or distribution providers. Their terms may apply to your use, and we are not responsible for third-party systems outside our reasonable control.</p>
       <h2>Disclaimers</h2>
-      <p>To the maximum extent permitted by law, services are provided “as is” and “as available.” We disclaim implied warranties, including merchantability, fitness for a particular purpose, noninfringement, and any guarantee of business results, revenue, audience growth, dispute prevention, payment collection, or permanent data preservation.</p>
+      <p>To the maximum extent permitted by law, services are provided "as is" and "as available." We disclaim implied warranties, including merchantability, fitness for a particular purpose, noninfringement, and any guarantee of business results, revenue, audience growth, dispute prevention, payment collection, or permanent data preservation.</p>
       <h2>Limitation of liability</h2>
       <p>To the maximum extent permitted by law, Zayas House LLC will not be liable for indirect, incidental, special, consequential, exemplary, or punitive damages, or lost profits, revenues, data, goodwill, or opportunities. Our aggregate liability arising from a service will not exceed the amount you paid us for that service during the 12 months before the event giving rise to the claim.</p>
       <h2>Termination</h2>
@@ -243,7 +442,9 @@ function render() {
   document.querySelectorAll('.nav a[data-link]').forEach(link => {
     link.toggleAttribute('aria-current', normalizePath(link.pathname) === path);
   });
-  document.title = path === '/' ? 'Zayas House LLC' : `${document.querySelector('h1')?.textContent || 'Zayas House'} | Zayas House LLC`;
+  document.title = path === '/'
+    ? 'Zayas House LLC | StoryFactory - The Creative Intelligence System'
+    : `${document.querySelector('h1')?.textContent || 'Zayas House'} | Zayas House LLC`;
   window.scrollTo(0, 0);
   bindLinks();
 }
