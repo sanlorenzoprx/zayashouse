@@ -2,9 +2,20 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "zayashouse",
   "compatibility_date": "2026-07-30",
+  "workers_dev": true,
   "observability": {
     "enabled": true
   },
+  "routes": [
+    {
+      "pattern": "zayashouse.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.zayashouse.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": ".",
     "not_found_handling": "single-page-application"
