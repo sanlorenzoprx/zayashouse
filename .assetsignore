@@ -6,3 +6,9 @@
 .assetsignore
 wrangler.jsonc
 README.md
+worker.mjs
+tests/**
+node_modules/**
+package*.json
+**/.dev.vars*
+**/.env*

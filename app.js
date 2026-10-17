@@ -22,7 +22,7 @@ const pages = {
     <section class="hero hero-home">
       <div class="shell hero-grid">
         <div>
-          <p class="eyebrow">Zayas House LLC Â· Puerto Rico technology company</p>
+          <p class="eyebrow">Zayas House LLC · Puerto Rico technology company</p>
           <h1>We build the system that turns products into stories that learn.</h1>
           <p class="hero-lede">StoryFactory is our flagship technology: a Creative Intelligence System that understands a product, decides what is worth saying, creates media, distributes it, and learns from performance.</p>
           <div class="actions">
@@ -32,10 +32,10 @@ const pages = {
         </div>
         <aside class="hero-card hero-proof">
           <span class="status status-live">Working MVP</span>
-          <strong>StoryFactory â€” The Creative Intelligence System</strong>
+          <strong>StoryFactory — The Creative Intelligence System</strong>
           <p>Built by Zayas House LLC and being proven through real product workflows, beginning with GhostTownTest.</p>
           <div class="mini-pipeline" aria-label="StoryFactory workflow">
-            <span>Product</span><i>â†’</i><span>Story</span><i>â†’</i><span>Media</span><i>â†’</i><span>Distribution</span><i>â†’</i><span>Learning</span>
+            <span>Product</span><i>→</i><span>Story</span><i>→</i><span>Media</span><i>→</i><span>Distribution</span><i>→</i><span>Learning</span>
           </div>
         </aside>
       </div>
@@ -133,7 +133,7 @@ const pages = {
   `,
 
   '/storyfactory': () => `
-    ${policyHero('Flagship product', 'StoryFactory â€” The Creative Intelligence System', 'A working technology platform for understanding products, shaping stories, producing media, distributing creative, and learning from what performs.')}
+    ${policyHero('Flagship product', 'StoryFactory — The Creative Intelligence System', 'A working technology platform for understanding products, shaping stories, producing media, distributing creative, and learning from what performs.')}
 
     <section class="section section-white">
       <div class="shell split">
@@ -170,7 +170,7 @@ const pages = {
     <section class="section section-dark">
       <div class="shell">
         <p class="eyebrow">Execution path</p>
-        <h2 class="wide-title">Product analysis â†’ Story â†’ StoryShape â†’ Scenes â†’ Media â†’ Distribution â†’ Learning</h2>
+        <h2 class="wide-title">Product analysis → Story → StoryShape → Scenes → Media → Distribution → Learning</h2>
         <p class="dark-lede">StoryFactory uses deterministic contracts around AI-assisted interpretation so production does not simply trust model output. Product truth, evidence authority, creative structure, distribution intent, and learning dimensions remain explicit.</p>
       </div>
     </section>
@@ -202,7 +202,7 @@ const pages = {
           <div><strong>Story inputs</strong><span>Pattern stories + factual cases</span></div>
           <div><strong>Creative outputs</strong><span>Variable story depth, scenes, runtime, media</span></div>
           <div><strong>Platforms</strong><span>YouTube, Instagram, Facebook, TikTok, X</span></div>
-          <div><strong>Business learning</strong><span>Views â†’ clicks â†’ tests â†’ paid Blueprints â†’ revenue</span></div>
+          <div><strong>Business learning</strong><span>Views → clicks → tests → paid Blueprints → revenue</span></div>
         </div>
       </div>
     </section>
@@ -318,6 +318,42 @@ const pages = {
     </article>
   `,
 
+  '/contact': () => `
+    ${policyHero('Contact', 'Let’s talk.', 'Questions about StoryFactory, partnerships, or startup programs? Send us a message.')}
+    <section class="section section-white">
+      <div class="shell contact-layout">
+        <aside class="contact-details">
+          <h2>Contact Zayas House</h2>
+          <p>Company, partnership, grant, and product inquiries</p>
+          <p><a class="contact-email" href="mailto:${companyEmail}">${companyEmail}</a></p>
+          <button class="button button-dark" type="button" id="copy-email">Copy email</button>
+          <p id="copy-status" role="status" aria-live="polite"></p>
+          <h3>Need customer support?</h3>
+          <p><a href="mailto:${supportEmail}">${supportEmail}</a></p>
+          <p>Puerto Rico, United States</p>
+        </aside>
+        <form id="contact-form" class="contact-form" action="/api/contact" method="post" aria-labelledby="contact-form-title">
+          <h2 id="contact-form-title">Send a message</h2>
+          <label for="contact-name">Name</label>
+          <input id="contact-name" name="name" autocomplete="name" required maxlength="100">
+          <label for="contact-email">Email</label>
+          <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254">
+          <label for="contact-subject">Subject</label>
+          <input id="contact-subject" name="subject" required maxlength="150">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="7" required maxlength="5000"></textarea>
+          <div class="contact-trap" aria-hidden="true">
+            <label for="contact-website">Leave this field empty</label>
+            <input id="contact-website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <p class="contact-note">We use your name, email, and message to respond to your inquiry. <a href="/privacy" data-link>Privacy Policy</a></p>
+          <button class="button button-dark" type="submit" disabled>Send message</button>
+          <p id="contact-status" role="status" aria-live="polite">Checking message availability…</p>
+        </form>
+      </div>
+    </section>
+  `,
+
   '/support': () => `
     ${policyHero('Customer support', 'Help with purchases, access, billing, and product questions.', 'Email is our official customer-support channel. Include the email address used for purchase and enough detail for us to locate the relevant order.')}
     <article class="content-wrap">
@@ -373,7 +409,7 @@ const pages = {
       <p>We may collect information you provide, including your name, email address, account information, customer-support communications, product inputs, uploaded content, and transaction-related information. Payment-card details are generally processed directly by our payment provider rather than stored by us.</p>
       <p>We may also collect technical and usage information such as device and browser details, IP address, approximate location derived from IP, timestamps, referral pages, application events, diagnostic logs, and cookies or similar technologies.</p>
       <h2>How we use information</h2>
-      <p>We use information to provide and improve products, process transactions, deliver purchases, maintain accounts, respond to support requests, prevent fraud and abuse, protect security, comply with law, communicate service information, andâ€”with any consent required by lawâ€”send product or marketing communications.</p>
+      <p>We use information to provide and improve products, process transactions, deliver purchases, maintain accounts, respond to support requests, prevent fraud and abuse, protect security, comply with law, communicate service information, and—with any consent required by law—send product or marketing communications.</p>
       <h2>How we share information</h2>
       <p>We may share information with service providers that support payments, hosting, authentication, communications, analytics, security, customer support, and product operations. We may also disclose information when required by law, to protect rights and safety, in connection with a corporate transaction, or at your direction. We do not sell personal information for money.</p>
       <h2>Product content and artificial intelligence</h2>
@@ -440,19 +476,80 @@ function render() {
   const view = pages[path] || pages['/404'];
   document.querySelector('#main').innerHTML = view();
   document.querySelectorAll('.nav a[data-link]').forEach(link => {
-    link.toggleAttribute('aria-current', normalizePath(link.pathname) === path);
+    if (normalizePath(link.pathname) === path) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
   });
   document.title = path === '/'
     ? 'Zayas House LLC | StoryFactory - The Creative Intelligence System'
     : `${document.querySelector('h1')?.textContent || 'Zayas House'} | Zayas House LLC`;
   window.scrollTo(0, 0);
   bindLinks();
+  bindContact();
+}
+
+function bindContact() {
+  const copyButton = document.querySelector('#copy-email');
+  copyButton?.addEventListener('click', async () => {
+    const status = document.querySelector('#copy-status');
+    try {
+      await navigator.clipboard.writeText(companyEmail);
+      status.textContent = 'Email copied.';
+    } catch {
+      status.textContent = `Copy unavailable. Select and copy ${companyEmail}.`;
+    }
+  });
+
+  const form = document.querySelector('#contact-form');
+  if (!form) return;
+  const button = form.querySelector('[type="submit"]');
+  const status = form.querySelector('#contact-status');
+  const unavailable = `Message sending is temporarily unavailable. Please email ${companyEmail} or use Copy email.`;
+  fetch('/api/contact', { headers: { Accept: 'application/json' }, cache: 'no-store' })
+    .then(async response => {
+      const result = await response.json();
+      if (!response.ok || !result.available) throw new Error('Unavailable');
+      button.disabled = false;
+      status.textContent = '';
+    })
+    .catch(() => { status.textContent = unavailable; });
+
+  let retryPayload;
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (button.disabled || !form.reportValidity()) return;
+    const fields = Object.fromEntries(new FormData(form));
+    const signature = JSON.stringify(fields);
+    if (retryPayload?.signature !== signature) {
+      retryPayload = { signature, body: { ...fields, requestId: crypto.randomUUID() } };
+    }
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    status.textContent = 'Sending your message…';
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(retryPayload.body),
+        signal: AbortSignal.timeout(20000)
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error('Send failed');
+      form.reset();
+      retryPayload = undefined;
+      status.textContent = 'Your message was submitted. Thank you for contacting Zayas House.';
+    } catch {
+      status.textContent = `We could not confirm your message was submitted. Your text is still here; retry or email ${companyEmail}.`;
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Send message';
+    }
+  });
 }
 
 function bindLinks() {
   document.querySelectorAll('a[data-link]').forEach(link => {
     link.addEventListener('click', event => {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       if (link.origin !== window.location.origin) return;
       event.preventDefault();
       history.pushState({}, '', link.pathname);
