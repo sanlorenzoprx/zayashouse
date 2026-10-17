@@ -1,10 +1,10 @@
-const recipient = 'hello@zayashouse.com';
+const sender = 'hello@zayashouse.com';
 const allowedOrigins = new Set(['https://zayashouse.com', 'https://www.zayashouse.com']);
 const maxBytes = 24000;
 const json = (body, status = 200, headers = {}) => Response.json(body, {
   status, headers: { 'Cache-Control': 'no-store', ...headers }
 });
-const configured = env => Boolean(env.RESEND_API_KEY && env.CONTACT_FROM_EMAIL && env.CONTACT_RATE_LIMITER);
+const configured = env => Boolean(env.CONTACT_EMAIL && env.CONTACT_TO_EMAIL && env.CONTACT_RATE_LIMITER);
 
 export default {
   async fetch(request, env) {
@@ -55,23 +55,16 @@ export default {
       const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
       const limit = await env.CONTACT_RATE_LIMITER.limit({ key: `zayashouse-contact:${ip}` });
       if (!limit.success) return json({ error: 'Too many attempts. Please try again later.' }, 429, { 'Retry-After': '60' });
-      // Bind retries to both the request ID and content; the recipient is never visitor-controlled.
-      const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify({ name, email, subject, message, requestId })));
-      const idempotencyKey = Array.from(new Uint8Array(hash), byte => byte.toString(16).padStart(2, '0')).join('');
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `contact-${idempotencyKey}` },
-        body: JSON.stringify({
-          from: env.CONTACT_FROM_EMAIL,
-          to: [recipient],
-          reply_to: email,
-          subject: `Website inquiry: ${subject}`,
-          text: `Website contact inquiry\n\nName: ${name}\nEmail: ${email}\n\n${message}`
-        }),
-        signal: AbortSignal.timeout(10000)
+      // The recipient is the verified destination already used by hello@ routing.
+      // Keep it server-side; visitors cannot choose the sender or destination.
+      const result = await env.CONTACT_EMAIL.send({
+        from: { email: sender, name: 'Zayas House Website' },
+        to: env.CONTACT_TO_EMAIL,
+        replyTo: email,
+        subject: `Website inquiry: ${subject}`,
+        text: `Website contact inquiry\n\nReference: ${requestId}\nName: ${name}\nEmail: ${email}\n\n${message}`
       });
-      const result = await response.json();
-      if (!response.ok || typeof result.id !== 'string' || !result.id) return json({ error: 'Message could not be confirmed. Please retry or email us.' }, 502);
+      if (typeof result?.messageId !== 'string' || !result.messageId) return json({ error: 'Message could not be confirmed. Please email us.' }, 502);
       return json({ ok: true });
     } catch {
       // Do not log contact content, personal details, or provider credentials.

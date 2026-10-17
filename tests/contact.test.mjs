@@ -6,7 +6,7 @@ import worker from '../worker.mjs';
 
 const payload = { name: 'Website visitor', email: 'visitor@example.com', subject: 'Partnership', message: 'Tell me about StoryFactory.', website: '', requestId: 'a63de750-1234-4234-8234-123456789abc' };
 const env = {
-  RESEND_API_KEY: 'test-key', CONTACT_FROM_EMAIL: 'Website <hello@zayashouse.com>',
+  CONTACT_TO_EMAIL: 'verified-inbox@example.com', CONTACT_EMAIL: { send: async () => ({ messageId: 'receipt' }) },
   CONTACT_RATE_LIMITER: { limit: async () => ({ success: true }) },
   ASSETS: { fetch: async () => new Response('static page') }
 };
@@ -20,7 +20,7 @@ test('static and API routes remain distinct', async () => {
   assert.equal((await worker.fetch(new Request('https://zayashouse.com/api/contact', { method: 'DELETE' }), env)).status, 405);
 });
 test('availability requires sender credentials and rate limiter', async () => {
-  for (const missing of ['RESEND_API_KEY', 'CONTACT_FROM_EMAIL', 'CONTACT_RATE_LIMITER']) {
+  for (const missing of ['CONTACT_EMAIL', 'CONTACT_TO_EMAIL', 'CONTACT_RATE_LIMITER']) {
     const config = { ...env, [missing]: undefined };
     assert.deepEqual(await (await worker.fetch(new Request('https://zayashouse.com/api/contact'), config)).json(), { available: false });
     assert.equal((await worker.fetch(request(), config)).status, 503);
@@ -44,33 +44,21 @@ test('rate limited visitors do not reach the email provider', async () => {
   assert.equal(response.status, 429);
   assert.equal(response.headers.get('Retry-After'), '60');
 });
-test('send uses fixed destination, authenticated sender, reply-to and stable retry keys', async () => {
-  const original = globalThis.fetch;
+test('native email uses fixed sender, verified destination and visitor Reply-To', async () => {
   const sends = [];
-  globalThis.fetch = async (url, options) => {
-    sends.push({ url, options, body: JSON.parse(options.body) });
-    return Response.json({ id: 'provider-receipt' });
-  };
-  try {
-    for (let i = 0; i < 2; i++) assert.equal((await worker.fetch(request({ ...payload, to: 'attacker@example.com' }), env)).status, 200);
-    assert.deepEqual(sends[0].body.to, ['hello@zayashouse.com']);
-    assert.equal(sends[0].body.from, env.CONTACT_FROM_EMAIL);
-    assert.equal(sends[0].body.reply_to, payload.email);
-    assert.equal(sends[0].options.headers['Idempotency-Key'], sends[1].options.headers['Idempotency-Key']);
-    await worker.fetch(request({ ...payload, message: 'A different message' }), env);
-    assert.notEqual(sends[0].options.headers['Idempotency-Key'], sends[2].options.headers['Idempotency-Key']);
-  } finally { globalThis.fetch = original; }
+  const config = { ...env, CONTACT_EMAIL: { send: async body => { sends.push(body); return { messageId: 'receipt' }; } } };
+  assert.equal((await worker.fetch(request({ ...payload, to: 'attacker@example.com', from: 'attacker@example.com' }), config)).status, 200);
+  assert.equal(sends[0].to, env.CONTACT_TO_EMAIL);
+  assert.equal(sends[0].from.email, 'hello@zayashouse.com');
+  assert.equal(sends[0].replyTo, payload.email);
+  assert.match(sends[0].text, new RegExp(payload.requestId));
 });
-test('provider rejection, missing receipt and timeout never report success', async () => {
-  const original = globalThis.fetch;
-  try {
-    for (const mock of [async () => Response.json({ error: 'unavailable' }, { status: 503 }), async () => Response.json({}), async () => { throw new Error('timeout'); }]) {
-      globalThis.fetch = mock;
-      const response = await worker.fetch(request(), env);
-      assert.equal(response.status, 502);
-      assert.equal((await response.json()).ok, undefined);
-    }
-  } finally { globalThis.fetch = original; }
+test('provider rejection and missing receipts never report success', async () => {
+  for (const send of [async () => { throw new Error('provider unavailable'); }, async () => ({}), async () => undefined]) {
+    const response = await worker.fetch(request(), { ...env, CONTACT_EMAIL: { send } });
+    assert.equal(response.status, 502);
+    assert.equal((await response.json()).ok, undefined);
+  }
 });
 test('contact route has labels, email and the requested form controls', () => {
   // Render the actual route template without running browser initialization.

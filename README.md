@@ -46,33 +46,41 @@ The production domain is:
 
 ## Contact form setup and deployment
 
-The Worker handles `/api/contact`; all other routes retain static SPA handling.
-The form sends to the fixed company inbox `hello@zayashouse.com`. It uses
-the visitor's email only as Reply-To, never as the authenticated sender.
+The Worker handles `/api/contact`; other routes retain static SPA handling.
+Cloudflare Email Service delivers inquiries to the existing verified destination
+for `hello@zayashouse.com`. The private forwarding destination lives in the
+`CONTACT_TO_EMAIL` Worker secret and is never returned to visitors or committed.
+The email binding restricts the sender to `hello@zayashouse.com`; visitor email
+is used only as Reply-To. No Resend account or API key is needed.
 
 Before deploying:
 
-1. Verify a sending domain in Resend and create a sending API key.
-2. Run `npx wrangler secret put RESEND_API_KEY` and enter that key privately.
-3. Run `npx wrangler secret put CONTACT_FROM_EMAIL` and enter a sender address
-   on that verified domain, optionally with a display name.
-4. Run `node --test tests/contact.test.mjs` and `node --check app.js`.
-5. Run `npx wrangler deploy` from the repository with authorized Cloudflare access.
-6. Verify `/contact` loads directly, navigation and Copy email work on desktop
-   and mobile, and a controlled form submission arrives in the company inbox.
+1. Confirm the domain has Email Routing enabled and the `hello@` rule forwards
+   to a verified destination in the same Cloudflare account.
+2. Privately pipe that existing destination into `wrangler secret put CONTACT_TO_EMAIL`.
+3. Run `node --test tests/contact.test.mjs`, `node --check app.js`, and
+   `node --check worker.mjs`.
+4. Use `wrangler deploy --dry-run` to verify assets and bindings.
+5. Upload a candidate with `wrangler versions upload --preview-alias contact-email`.
+   Test a controlled submission against the returned preview URL and confirm
+   its receipt in the destination inbox before production deployment.
+6. Deploy the tested revision with `wrangler deploy`; verify navigation,
+   Copy email, direct /contact reload, and a production form submission.
 
-The form is disabled with a visible email fallback if the delivery credentials
-or rate-limit binding are missing. No message is reported submitted unless the
-provider accepts it and returns a receipt. Inbox arrival still needs live verification.
-Failed submissions preserve the visitor's text; retries reuse a content-bound
-idempotency key. Requests have field/body limits, origin validation, a honeypot,
-and Cloudflare per-IP rate limiting (5 requests per minute per location).
-No contact message content is logged or stored by the site. Resend processes
-the submitted name, email, subject and message for delivery under its retention
-policies; the company mailbox retains received messages.
+The form is disabled with a visible email fallback if configuration is missing.
+It reports submission only after Cloudflare returns a message receipt. Provider
+acceptance alone does not prove inbox arrival. Failures preserve the visitor's
+text. Double clicks are suppressed while sending. Native Email Service does not
+provide the former Resend idempotency contract: a manual retry following an
+uncertain network failure may produce a duplicate inquiry. The reference in
+message text makes those duplicates identifiable; no automatic retries run.
+Requests have input/body limits, origin validation, a honeypot, and per-IP rate
+limiting (5 attempts per minute per Cloudflare location).
 
-For local Worker development use `npx wrangler dev`; the static-only preview
-cannot send form messages. Keep credentials out of Git and static assets.
+The site does not log or persist contact message content. Cloudflare processes
+it for delivery and the existing destination mailbox retains received messages.
+Use `wrangler dev` for local Worker development; static-only preview cannot send.
+Keep credentials out of Git and static assets.
 
 ## Business information
 
