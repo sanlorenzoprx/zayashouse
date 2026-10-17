@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "zayashouse",
+  "main": "worker.mjs",
   "compatibility_date": "2026-07-30",
   "workers_dev": true,
   "observability": {
@@ -18,6 +19,13 @@
   ],
   "assets": {
     "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
     "not_found_handling": "single-page-application"
-  }
+  },
+  "ratelimits": [{
+    "name": "CONTACT_RATE_LIMITER",
+    "namespace_id": "926174",
+    "simple": { "limit": 5, "period": 60 }
+  }]
 }
